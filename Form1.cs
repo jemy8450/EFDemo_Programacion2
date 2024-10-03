@@ -15,11 +15,13 @@ namespace EFDemo
     {
 
         CustomerRepository cr = new CustomerRepository();
+        
+
         public Form1()
         {
             InitializeComponent();
         }
-        
+
 
         private void btnObtenerTodos_Click(object sender, EventArgs e)
         {
@@ -37,5 +39,25 @@ namespace EFDemo
             };
             dgvCustomers.DataSource = lista1;
         }
+
+        private void btnInsertar_Click(object sender, EventArgs e)
+        {
+            var cliente = crearCliente();
+            var resultado = cr.InsertarCliente(cliente);
+            MessageBox.Show($"Se inserto {resultado}");
+        }
+
+        private Customers crearCliente()
+        {
+            var cliente = new Customers()
+            {
+                CustomerID = txbCustomerID.Text,
+                CompanyName = txbCompanyName.Text,
+                ContactName = txbContactName.Text,
+                ContactTitle = txbContactTitle.Text,
+                Address = txbAddress.Text,
+            };
+            return cliente;
+        }        
     }
 }
