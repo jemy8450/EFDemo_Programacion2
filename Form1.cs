@@ -37,6 +37,11 @@ namespace EFDemo
             {
                 cliente
             };
+            if (cliente != null)
+            {
+                llenarCampos(cliente);
+            }
+
             dgvCustomers.DataSource = lista1;
         }
 
@@ -58,6 +63,30 @@ namespace EFDemo
                 Address = txbAddress.Text,
             };
             return cliente;
-        }        
+        }
+        
+        private void llenarCampos(Customers customers)
+        {
+            txbCustomerID.Text = customers.CustomerID;
+            txbCompanyName.Text = customers.CompanyName;
+            txbContactName.Text = customers.ContactName;
+            txbContactTitle.Text = customers.ContactTitle;
+            txbAddress.Text = customers.Address;
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            var cliente = crearCliente();
+            cr.UpdateCliente(cliente);
+            var resultado = cr.ObtenerPorId(cliente.CustomerID);
+            List<Customers> lista1 = new List<Customers> {resultado};
+            dgvCustomers.DataSource = lista1;
+        }
+
+        private void btnBorrar_Click(object sender, EventArgs e)
+        {
+            var eliminadas = cr.DeleteCliente(txbCustomerID.Text);
+            MessageBox.Show($"Se elimino {eliminadas} filas");
+        }
     }
 }
